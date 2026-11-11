@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="sticker">
+  <title>常識科第二課：善用閒暇小達人</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Sans+TC:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces */
+      --background: #fef7ff;
+      --surface-container-low: #ffffff;
+      --surface-container: #f8eef8;
+      --surface-container-high: #f2e8f2;
+      --surface-card: #ffffff;
+      --surface-card-hover: #faf0f8;
+
+      /* Ink */
+      --on-surface: #2e1a28;
+      --on-surface-variant: #604868;
+      --on-surface-muted: #88708c;
+
+      /* Rules & borders */
+      --outline: #907898;
+      --outline-variant: #dcc8e0;
+      --outline-subtle: #ebddec;
+
+      /* Accents */
+      --primary: #c2207f;
+      --on-primary: #ffffff;
+      --primary-container: #fce8f3;
+      --on-primary-container: #750044;
+      --secondary: #7c52aa;
+      --on-secondary: #ffffff;
+      --secondary-container: #ede3f8;
+      --tertiary: #0088b8;
+      --on-tertiary: #ffffff;
+      --tertiary-container: #e0f4fc;
+
+      /* Semantic */
+      --positive: #1b8a5a;
+      --positive-container: #e6f7ef;
+      --on-positive: #ffffff;
+      --warning: #d96a00;
+      --warning-container: #fff1e0;
+      --error: #c53030;
+      --error-container: #fde8e8;
+      --on-error: #ffffff;
+      --focus: #c2207f;
+
+      /* Visual badges */
+      --badge-yellow: #f5a623;
+      --badge-yellow-bg: #fef7e6;
+      --badge-blue: #0288d1;
+      --badge-blue-bg: #e1f5fe;
+      --badge-green: #2e7d32;
+      --badge-green-bg: #e8f5e9;
+      --badge-purple: #8e24aa;
+      --badge-purple-bg: #f3e5f5;
+
+      /* Fonts */
+      --font-headline: 'Fredoka', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+      --font-body: 'Fredoka', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+      --font-label: 'Fredoka', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+
+      /* Type scale */
+      --display-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.1rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.55rem);
+      --subhead-size: clamp(1.05rem, 0.98rem + 0.3vw, 1.2rem);
+      --body-size: clamp(0.98rem, 0.94rem + 0.2vw, 1.08rem);
+      --label-size: 0.875rem;
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* Shape */
+      --rounded: 1rem;
+      --rounded-lg: 1.75rem;
+      --rounded-full: 9999px;
+
+      /* Shadows & Transitions */
+      --shadow-pink: 0 4px 16px rgba(224, 64, 160, 0.18);
+      --shadow-pink-deep: 0 10px 28px rgba(224, 64, 160, 0.28);
+      --shadow-grape: 0 4px 16px rgba(124, 82, 170, 0.18);
+      --shadow-card: 0 8px 24px rgba(78, 30, 80, 0.08);
+      --shadow-card-hover: 0 12px 30px rgba(78, 30, 80, 0.14);
+      --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      font-family: var(--font-body);
+      -webkit-tap-highlight-color: transparent;
+    }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-size: var(--body-size);
+      line-height: 1.6;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--space-md) var(--space-md) var(--space-2xl);
+    }
+
+    /* Accessibility focus */
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    /* App Shell Container */
+    .app-wrapper {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    /* Header Bar */
+    .game-header {
+      background: var(--surface-card);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-card);
+      border: 3px solid var(--surface-container-high);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .brand-badge {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-size: var(--label-size);
+      font-weight: 700;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: var(--rounded-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    h1.app-title {
+      font-size: var(--display-size);
+      color: var(--primary);
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .icon-btn {
+      background: var(--surface-container);
+      color: var(--on-surface-variant);
+      border: 2px solid var(--outline-variant);
+      border-radius: var(--rounded-full);
+      padding: var(--space-xs) var(--space-md);
+      font-size: var(--label-size);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 44px;
+      transition: background-color var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-bounce);
+    }
+    .icon-btn:hover {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      transform: translateY(-2px);
+    }
+    .icon-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Status & Progress Bar */
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 14px;
+      background: var(--surface-container-high);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 11%;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: var(--rounded-full);
+      transition: width var(--dur-long) var(--ease-out);
+    }
+
+    .star-counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--badge-yellow-bg);
+      color: var(--badge-yellow);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      border: 2px solid #ffd591;
+      font-weight: 700;
+      font-size: var(--body-size);
+    }
+
+    /* Main Card Area */
+    .quiz-card {
+      background: var(--surface-card);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--shadow-card);
+      border: 3px solid var(--surface-container-high);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+      position: relative;
+    }
+
+    /* Illustration Container */
+    .scene-box {
+      width: 100%;
+      min-height: 160px;
+      background: linear-gradient(180deg, var(--surface-container) 0%, var(--surface-card) 100%);
+      border-radius: var(--rounded);
+      border: 2px dashed var(--outline-variant);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scene-svg {
+      width: 100%;
+      max-width: 320px;
+      height: auto;
+      max-height: 160px;
+      display: block;
+    }
+
+    .scene-badge {
+      margin-top: var(--space-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      font-size: var(--label-size);
+      font-weight: 700;
+      background: var(--secondary-container);
+      color: var(--secondary);
+    }
+
+    /* Question Typography */
+    .question-section {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .question-num-tag {
+      font-size: var(--label-size);
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .question-title {
+      font-size: var(--headline-size);
+      font-weight: 700;
+      color: var(--on-surface);
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    /* Options List */
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .option-btn {
+      width: 100%;
+      min-height: 60px;
+      background: var(--surface-container-low);
+      border: 3px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-lg);
+      font-size: var(--body-size);
+      font-weight: 600;
+      color: var(--on-surface);
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      transition: background-color var(--dur-short) var(--ease-out),
+                  border-color var(--dur-short) var(--ease-out),
+                  transform var(--dur-short) var(--ease-bounce),
+                  box-shadow var(--dur-short) var(--ease-out);
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: var(--primary-container);
+      border-color: var(--primary);
+      color: var(--on-primary-container);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-pink);
+    }
+
+    .option-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-letter {
+      flex-shrink: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: var(--rounded-full);
+      background: var(--surface-container);
+      color: var(--secondary);
+      border: 2px solid var(--outline-variant);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .option-text {
+      flex: 1;
+      line-height: 1.4;
+    }
+
+    /* Option States */
+    .option-btn.state-correct {
+      background: var(--positive-container);
+      border-color: var(--positive);
+      color: #0b5e39;
+      box-shadow: 0 4px 16px rgba(27, 138, 90, 0.2);
+    }
+    .option-btn.state-correct .option-letter {
+      background: var(--positive);
+      border-color: var(--positive);
+      color: var(--on-positive);
+    }
+
+    .option-btn.state-wrong {
+      background: var(--error-container);
+      border-color: var(--error);
+      color: #8c1d1d;
+      opacity: 0.85;
+    }
+    .option-btn.state-wrong .option-letter {
+      background: var(--error);
+      border-color: var(--error);
+      color: var(--on-error);
+    }
+
+    /* Explanation Knowledge Card */
+    .knowledge-card {
+      display: none;
+      border-radius: var(--rounded);
+      padding: var(--space-md) var(--space-lg);
+      background: var(--warning-container);
+      border: 3px solid #ffcc80;
+      animation: popFeedback 0.35s var(--ease-bounce) forwards;
+    }
+
+    @keyframes popFeedback {
+      0% { opacity: 0; transform: scale(0.96) translateY(6px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .knowledge-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xs);
+    }
+
+    .knowledge-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 700;
+      font-size: var(--body-size);
+      color: var(--warning);
+    }
+
+    .knowledge-feedback-text {
+      font-weight: 700;
+      font-size: var(--subhead-size);
+    }
+
+    .knowledge-desc {
+      font-size: var(--body-size);
+      color: var(--on-surface);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .knowledge-desc strong {
+      color: #9c4100;
+    }
+
+    .action-row {
+      margin-top: var(--space-md);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .primary-btn {
+      background: var(--primary);
+      color: var(--on-primary);
+      border: none;
+      border-radius: var(--rounded-full);
+      padding: var(--space-sm) var(--space-xl);
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 52px;
+      box-shadow: var(--shadow-pink);
+      transition: transform var(--dur-short) var(--ease-bounce), box-shadow var(--dur-short) var(--ease-out), background-color var(--dur-short);
+    }
+
+    .primary-btn:hover {
+      background: #a9126a;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: var(--shadow-pink-deep);
+    }
+    .primary-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Result / Summary Screen */
+    .result-screen {
+      display: none;
+      background: var(--surface-card);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xl) var(--space-lg);
+      box-shadow: var(--shadow-card);
+      border: 3px solid var(--surface-container-high);
+      text-align: center;
+    }
+
+    .result-trophy-wrap {
+      width: 110px;
+      height: 110px;
+      margin: 0 auto var(--space-md);
+      background: var(--badge-yellow-bg);
+      border: 4px solid #ffd591;
+      border-radius: var(--rounded-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(245, 166, 35, 0.25);
+      animation: floatTrophy 3s ease-in-out infinite;
+    }
+
+    @keyframes floatTrophy {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .result-title {
+      font-size: var(--display-size);
+      color: var(--primary);
+      margin: 0 0 var(--space-xs);
+      font-weight: 700;
+    }
+
+    .result-subtitle {
+      font-size: var(--subhead-size);
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-lg);
+    }
+
+    .score-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+
+    .score-pill-card {
+      background: var(--surface-container);
+      border: 2px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .score-pill-card .pill-num {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .score-pill-card .pill-label {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-weight: 600;
+    }
+
+    /* Knowledge Review Section at End */
+    .review-box {
+      text-align: left;
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      border: 2px solid var(--outline-variant);
+      margin-bottom: var(--space-xl);
+    }
+
+    .review-title {
+      font-size: var(--subhead-size);
+      font-weight: 700;
+      color: var(--secondary);
+      margin: 0 0 var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .review-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .review-item {
+      background: var(--surface-card);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      border: 1px solid var(--outline-subtle);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .review-item strong {
+      color: var(--primary);
+    }
+
+    .restart-btn {
+      background: var(--secondary);
+      color: var(--on-secondary);
+      border: none;
+      border-radius: var(--rounded-full);
+      padding: var(--space-md) var(--space-2xl);
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 56px;
+      box-shadow: var(--shadow-grape);
+      transition: transform var(--dur-short) var(--ease-bounce), background-color var(--dur-short);
+    }
+    .restart-btn:hover {
+      background: #633991;
+      transform: translateY(-3px) scale(1.02);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+      body {
+        padding: var(--space-sm) var(--space-sm) var(--space-lg);
+      }
+      .game-header {
+        padding: var(--space-sm) var(--space-md);
+      }
+      .quiz-card {
+        padding: var(--space-md);
+      }
+      .option-btn {
+        padding: var(--space-sm) var(--space-md);
+        gap: var(--space-sm);
+      }
+      .option-letter {
+        width: 32px;
+        height: 32px;
+        font-size: 0.95rem;
+      }
+      .primary-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-wrapper">
+  <!-- Top Navigation & Score Bar -->
+  <header class="game-header">
+    <div class="header-top">
+      <div class="brand-title">
+        <span class="brand-badge">小二常識科 🌟 第二課</span>
+        <h1 class="app-title">善用閒暇小達人</h1>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="sound-toggle-btn" onclick="toggleAudio()" aria-label="切換音效開關">
+          <span id="sound-icon" aria-hidden="true">🔊</span>
+          <span id="sound-text">音效：開啟</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Progress Status Bar -->
+    <div class="status-row">
+      <span id="progress-indicator">關卡進度：第 1 / 9 題</span>
+      <div class="star-counter" id="stars-display">
+        <span aria-hidden="true">⭐</span>
+        <span id="stars-text">得分：0</span>
+      </div>
+    </div>
+    <div class="progress-track" aria-label="答題進度條">
+      <div class="progress-fill" id="progress-bar"></div>
+    </div>
+  </header>
+
+  <!-- Quiz Interaction Card -->
+  <main class="quiz-card" id="quiz-main-card">
+    <!-- Visual Scenario Illustration -->
+    <div class="scene-box" id="scene-container">
+      <div id="scene-art" aria-hidden="true"></div>
+      <div class="scene-badge" id="scene-topic-badge">主題標籤</div>
+    </div>
+
+    <!-- Question Title -->
+    <div class="question-section">
+      <span class="question-num-tag" id="q-sub-tag">QUESTION 1</span>
+      <h2 class="question-title" id="q-title-text">題目載入中...</h2>
+    </div>
+
+    <!-- 3 Options -->
+    <ul class="options-list" id="options-container" role="list">
+      <!-- Generated dynamically -->
+    </ul>
+
+    <!-- Instant Explanation Card -->
+    <div class="knowledge-card" id="knowledge-card" role="region" aria-live="polite">
+      <div class="knowledge-header">
+        <span class="knowledge-badge">💡 課文重點解析</span>
+        <span class="knowledge-feedback-text" id="feedback-result-text">答對了！</span>
+      </div>
+      <p class="knowledge-desc" id="knowledge-content-text">課文重點內容說明...</p>
+      <div class="action-row">
+        <button class="primary-btn" id="next-question-btn" onclick="goToNextQuestion()">
+          <span>前往下一題</span>
+          <span aria-hidden="true">➔</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Final Completion & Review Screen -->
+  <section class="result-screen" id="final-result-card" aria-label="通關結算畫面">
+    <div class="result-trophy-wrap">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#f5a623" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+        <path d="M4 22h16"/>
+        <path d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1h10v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34"/>
+        <path d="M18 4H6v7a6 6 0 0 0 12 0V4z"/>
+      </svg>
+    </div>
+    <h2 class="result-title" id="final-congrats-title">太棒了！通關成功！</h2>
+    <p class="result-subtitle" id="final-congrats-subtitle">你已經完全掌握了常識科「善用閒暇」的精華重點！</p>
+
+    <!-- Score metrics -->
+    <div class="score-cards-grid">
+      <div class="score-pill-card">
+        <span class="pill-num" id="final-score-num">9</span>
+        <span class="pill-label">總得分（最高 9 分）</span>
+      </div>
+      <div class="score-pill-card">
+        <span class="pill-num" id="final-stars-num">⭐⭐⭐</span>
+        <span class="pill-label">獲得評星榮譽</span>
+      </div>
+      <div class="score-pill-card">
+        <span class="pill-num" id="best-score-num">9</span>
+        <span class="pill-label">歷史最佳紀錄</span>
+      </div>
+    </div>
+
+    <!-- Knowledge Summary for Revision -->
+    <div class="review-box">
+      <h3 class="review-title">
+        <span aria-hidden="true">📖</span>
+        <span>常識科第二課：9大核心課文重點複習</span>
+      </h3>
+      <ul class="review-list">
+        <li class="review-item"><strong>1. 閒暇定義：</strong>不用上學、做功課和溫習的自由活動時間。</li>
+        <li class="review-item"><strong>2. 五大益處：</strong>強身健體、增進知識、發揮創意、訓練思考、學習與人相處。</li>
+        <li class="review-item"><strong>3. 選擇考慮：</strong>妥善安排空餘時間，依興趣、能力、時間與益處四大因素選擇。</li>
+        <li class="review-item"><strong>4. 良好習慣：</strong>早睡早起生活規律，限制看電視時間，不沉迷玩樂。</li>
+        <li class="review-item"><strong>5. 學習態度：</strong>參加群體與興趣班要守時、守規則，互相幫助並負責任。</li>
+        <li class="review-item"><strong>6. 植物生長條件：</strong>需要充足陽光、良好通風空氣與適當水分。</li>
+        <li class="review-item"><strong>7. 番茄生長順序：</strong>播種 ➔ 發芽 ➔ 幼苗 ➔ 長大 ➔ 開花 ➔ 結果。</li>
+        <li class="review-item"><strong>8. 飼養小狗需求：</strong>舒適乾淨居所、清潔飲水飲食、每日散步運動與關懷陪伴。</li>
+        <li class="review-item"><strong>9. 照顧動植物精神：</strong>在照料過程中學會用心照顧、負責任與尊重生命。</li>
+      </ul>
+    </div>
+
+    <button class="restart-btn" onclick="restartQuiz()">
+      <span aria-hidden="true">🔄</span>
+      <span>再玩一次，挑戰滿分！</span>
+    </button>
+  </section>
+</div>
+
+<api-shim></api-shim>
+<script>
+  /* Audio Web Audio API synthesizer (no speech / no voiceover) */
+  let audioContext = null;
+  let isSoundMuted = false;
+  let bestScore = 0;
+
+  function initAudio() {
+    if (!audioContext) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        audioContext = new AudioCtx();
+      }
+    }
+    if (audioContext && audioContext.state === 'suspended') {
+      audioContext.resume();
+    }
+  }
+
+  function playTone(freq, type, duration, delay = 0, gainLevel = 0.12) {
+    if (isSoundMuted) return;
+    initAudio();
+    if (!audioContext) return;
+
+    const startTime = audioContext.currentTime + delay;
+    const osc = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, startTime);
+
+    gainNode.gain.setValueAtTime(gainLevel, startTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+    osc.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    osc.start(startTime);
+    osc.stop(startTime + duration);
+  }
+
+  function playSfx(name) {
+    if (isSoundMuted) return;
+    if (name === 'click') {
+      playTone(480, 'sine', 0.08, 0, 0.08);
+    } else if (name === 'correct') {
+      /* Cheerful ascending chime */
+      playTone(523.25, 'triangle', 0.16, 0, 0.14);    /* C5 */
+      playTone(659.25, 'triangle', 0.16, 0.1, 0.14);  /* E5 */
+      playTone(783.99, 'triangle', 0.28, 0.2, 0.16);  /* G5 */
+    } else if (name === 'wrong') {
+      /* Gentle encouraging boing */
+      playTone(260, 'sine', 0.18, 0, 0.12);
+      playTone(200, 'sine', 0.25, 0.12, 0.12);
+    } else if (name === 'victory') {
+      /* Fanfare */
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((pitch, idx) => {
+        playTone(pitch, 'triangle', 0.35, idx * 0.12, 0.15);
+      });
+    }
+  }
+
+  function toggleAudio() {
+    isSoundMuted = !isSoundMuted;
+    const icon = document.getElementById('sound-icon');
+    const text = document.getElementById('sound-text');
+    if (isSoundMuted) {
+      if (icon) icon.textContent = '🔇';
+      if (text) text.textContent = '音效：靜音';
+    } else {
+      if (icon) icon.textContent = '🔊';
+      if (text) text.textContent = '音效：開啟';
+      playTone(520, 'sine', 0.1, 0, 0.1);
+    }
+  }
+
+  /* 9 Questions strictly based on curriculum images and core syllabus */
+  const quizData = [
+    {
+      id: 1,
+      topic: "閒暇的定義",
+      subTag: "第 1 題・認識閒暇",
+      question: "放學做完功課、也溫習完畢後，這段屬於我們自己的自由活動時間，叫作什麼呢？",
+      badgeText: "時鐘與自由時間 ⏰",
+      svg: `<svg viewBox="0 0 200 100" class="scene-svg">
+        <rect x="10" y="80" width="180" height="8" rx="4" fill="#a5d6a7"/>
+        <circle cx="50" cy="50" r="28" fill="#ffecb3" stroke="#ffa000" stroke-width="3"/>
+        <line x1="50" y1="50" x2="50" y2="34" stroke="#d84315" stroke-width="3" stroke-linecap="round"/>
+        <line x1="50" y1="50" x2="62" y2="50" stroke="#d84315" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="3" fill="#d84315"/>
+        <circle cx="140" cy="58" r="14" fill="#81d4fa"/>
+        <circle cx="140" cy="34" r="9" fill="#ffcc80"/>
+        <path d="M130 46 Q140 40 150 46 L146 64 L134 64 Z" fill="#ff80ab"/>
+        <circle cx="122" cy="74" r="8" fill="none" stroke="#546e7a" stroke-width="3"/>
+        <circle cx="158" cy="74" r="8" fill="none" stroke="#546e7a" stroke-width="3"/>
+        <line x1="122" y1="74" x2="140" y2="62" stroke="#e91e63" stroke-width="3"/>
+        <line x1="140" y1="62" x2="158" y2="74" stroke="#e91e63" stroke-width="3"/>
+      </svg>`,
+      options: [
+        { letter: "A", text: "閒暇時間", correct: true },
+        { letter: "B", text: "罰站時間", correct: false },
+        { letter: "C", text: "睡覺時間", correct: false }
+      ],
+      keyPoint: "<strong>閒暇</strong>是指我們不用上學、做功課和溫習的自由活動時間。這段時間完全屬於我們自己，可以自由規劃有益身心的活動！"
+    },
+    {
+      id: 2,
+      topic: "活動五大益處",
+      subTag: "第 2 題・活動的好處",
+      question: "小明利用閒暇去騎單車、畫畫和跟同學下棋。參加這些有益的活動對我們有哪些好處呢？",
+      badgeText: "身心健康與益處 🎨🏀",
+      svg: `<svg viewBox="0 0 200 100" class="scene-svg">
+        <rect x="20" y="25" width="40" height="50" rx="8" fill="#ffe0b2" stroke="#fb8c00" stroke-width="2"/>
+        <text x="40" y="55" font-size="24" text-anchor="middle" fill="#e65100">📖</text>
+        <circle cx="100" cy="50" r="24" fill="#e1f5fe" stroke="#039be5" stroke-width="2"/>
+        <text x="100" y="58" font-size="24" text-anchor="middle" fill="#0277bd">🎨</text>
+        <rect x="140" y="25" width="40" height="50" rx="8" fill="#e8f5e9" stroke="#43a047" stroke-width="2"/>
+        <text x="160" y="55" font-size="24" text-anchor="middle" fill="#2e7d32">⚽</text>
+      </svg>`,
+      options: [
+        { letter: "A", text: "只是隨便打發時間，沒有什麼特別好處", correct: false },
+        { letter: "B", text: "可以強身健體、增進知識、發揮創意、訓練思考與學習與人相處", correct: true },
+        { letter: "C", text: "只會讓我們很疲累，還不如整天躺著", correct: false }
+      ],
+      keyPoint: "參加有益的閒暇活動有<strong>五大好處</strong>：<strong>強身健體</strong>（鍛鍊體魄）、<strong>增進知識</strong>（擴闊眼界）、<strong>發揮創意</strong>（繪畫手工）、<strong>訓練思考</strong>（下棋動腦）與<strong>學習與人相處</strong>（學會合作互助）！"
+    },
+    {
+      id: 3,
+      topic: "選擇活動四大考慮",
+      subTag: "第 3 題・聰明選活動",
+      question: "小玲在報名假期的課外活動時，應該按照哪「四大因素」來選擇合適的活動？",
+      badgeText: "四大考慮因素 📋✨",
+      svg: `<svg viewBox="0 0 200 100" class="scene-svg">
+        <rect x="25" y="15" width="65" height="32" rx="6" fill="#fce4ec" stroke="#e91e63" stroke-width="2"/>
+        <text x="57" y="36" font-size="12" font-weight="bold" text-anchor="middle" fill="#c2185b">❤️ 興趣</text>
+        <rect x="110" y="15" width="65" height="32" rx="6" fill="#ede7f6" stroke="#673ab7" stroke-width="2"/>
+        <text x="142" y="36" font-size="12" font-weight="bold" text-anchor="middle" fill="#512da8">⭐ 能力</text>
+        <rect x="25" y="55" width="65" height="32" rx="6" fill="#e0f7fa" stroke="#00acc1" stroke-width="2"/>
+        <text x="57" y="76" font-size="12" font-weight="bold" text-anchor="middle" fill="#00838f">⏰ 時間</text>
+        <rect x="110" y="55" width="65" height="32" rx="6" fill="#fff8e1" stroke="#ffb300" stroke-width="2"/>
+        <text x="142" y="76" font-size="12" font-weight="bold" text-anchor="middle" fill="#ff8f00">🎁 益處</text>
+      </svg>`,
+      options: [
+        { letter: "A", text: "自己的興趣、能力、時間以及活動的益處", correct: true },
+        { letter: "B", text: "只看哪一個活動送的零食最多", correct: false },
+        { letter: "C", text: "不用考慮，隨便亂選一個看起來最貴的", correct: false }
+      ],
+      keyPoint: "妥善安排空餘時間時，我們應當按照自己的<strong>興趣</strong>（自己喜歡）、<strong>能力</strong>（自己做得到）、<strong>時間</strong>（時間配合妥當）以及<strong>活動的益處</strong>（有益健康與成長）等四大因素來選擇！"
+    },
+    {
+      id: 4,
+      topic: "良好生活習慣與時間管理",
+      subTag: "第 4 題・習慣與作息",
+      question: "到了溫習與睡覺的時間，但電視上的卡通還在播，小華應該怎麼做才是好習慣？",
+      badgeText: "早睡早起好習慣 🌙📺",
+      svg: `<svg viewBox="0 0 200 100" class="scene-svg">
+        <rect x="30" y="25" width="60" height="45" rx="6" fill="#cfd8dc" stroke="#546e7a" stroke-width="2"/>
+        <rect x="36" y="30" width="48" height="32" rx="3" fill="#37474f"/>
+        <line x1="45" y1="70" x2="75" y2="70" stroke="#546e7a" stroke-width="3"/>
+        <circle cx="145" cy="45" r="22" fill="#fff9c4" stroke="#fbc02d" stroke-width="2"/>
+        <path d="M140 28 A18 18 0 0 0 160 56 A22 22 0 1 1 140 28 Z" fill="#fdd835"/>
+        <text x="145" y="85" font-size="12" font-weight="bold" text-anchor="middle" fill="#546e7a">早睡早起 ☀️</text>
+      </svg>`,
+      options: [
+        { letter: "A", text: "繼續看電視看到半夜，明天功課再說", correct: false },
+        { letter: "B", text: "限制自己看電視的時間並養成早睡早起習慣，想想沒溫習和晚睡的後果", correct: true },
+        { letter: "C", text: "躲在棉被裡偷偷滑平板看影片", correct: false }
+      ],
+      keyPoint: "我們要善用時間，<strong>早睡早起</strong>生活有規律；<strong>限制看電視和玩遊戲的時間</strong>，想想如果繼續沉迷而沒有完成功課或隔天精神不好的後果！"
+    },
+    {
+      id: 5,
+      topic: "時珍與思怡的學習態度",
+      subTag: "第 5 題・活動好態度",
+      question: "時珍上興趣班從不遲到、遵守課室規則，還主動幫助同學。時珍表現出什麼重要的態度？",
+      badgeText: "守時與守規則 🤝🎒",
+      svg: `<svg viewBox="0 0 200 100" class="scene-svg">
+        <rect x="35" y="30" width="50" height="50" rx="8" fill="#e1bee7" stroke="#8e24aa" stroke-width="2"/>
+        <circle cx="60" cy="20" r="12" fill="#ffe0b2"/>
+        <text x="60" y="60" font-size="20" text-anchor="middle">🎒</text>
+        <circle cx="140" cy="50" r="24" fill="#c8e6c9" stroke="#2e7d32" stroke-width="3"/>
+        <path d="M130 50 L138 58 L152 42" stroke="#2e7d32" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <text x="140" y="86" font-size="11" font-weight="bold" text-anchor="middle" fill="#1b5e20">守規則・負責任</text>
+      </svg>`,
+      options: [
+        { letter: "A", text: "守時、守規則，而且懂得互相幫助與負責任", correct: true },
+        { letter: "B", text: "驕傲自大，喜歡大聲命令同學", correct: false },
+        { letter: "C", text: "上興趣班不需要守規則，隨心所欲就好", correct: false }
+      ],
+      keyPoint: "參加群體活動和興趣班時，我們必須做到<strong>守時</strong>（準時不遲到）、<strong>守規則</strong>（遵從指導與秩序），並在活動中學習<strong>互相幫助</strong>與<strong>負責任</strong>。"
+    },
+    {
+      id: 6,
+      topic: "植物生長的三大條件",
+      subTag: "第 6 題・植物生長條件",
+      question: "時珍在陽台種了一盆小植物，要怎樣照料才能使植物健康地生長？",
+      badgeText: "陽光・空氣・水 ☀️🍃💧",
+      svg: `<svg viewBox="0 0 200 100" class="scene-svg">
+        <circle cx="35" cy="30" r="16" fill="#fff176" stroke="#fbc02d" stroke-width="2"/>
+        <path d="M15 30 L5 30 M65 30 L55 30 M35 10 L35 0 M35 60 L35 50" stroke="#fbc02d" stroke-width="2"/>
+        <path d="M70 30 Q90 20 105 32 Q120 44 135 28" stroke="#80deea" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M165 20 Q160 30 160 36 A6 6 0 0 0 172 36 Q172 30 165 20 Z" fill="#4fc3f7"/>
+        <ellipse cx="100" cy="85" rx="30" ry="8" fill="#d7ccc8"/>
+        <path d="M85 85 L90 62 L110 62 L115 85 Z" fill="#ffab91" stroke="#d84315" stroke-width="2"/>
+        <path d="M100 62 L100 45 M100 52 Q90 46 92 40 M100 48 Q110 42 108 36" stroke="#4caf50" stroke-width="3" fill="none"/>
+        <circle cx="100" cy="40" r="5" fill="#e91e63"/>
+      </svg>`,
+      options: [
+        { letter: "A", text: "放在通風且有陽光照射的地方，並依需要定期適量澆水", correct: true },
+        { letter: "B", text: "放在陰暗無光、不透風的密閉紙箱裡面", correct: false },
+        { letter: "C", text: "完全不需要澆水，讓泥土乾裂枯萎", correct: false }
+      ],
+      keyPoint: "植物健康生長需要三大基本生存條件：充足的<strong>陽光</strong>、流通的<strong>空氣（通風良好）</strong>，以及依需要適量補充的<strong>水分</strong>！"
+    },
+    {
+      id: 7,
+      topic: "番茄生長的六個階段",
+      subTag: "第 7 題・番茄生長順序",
+      question: "請選出番茄從小到大生長的「六個階段」正確順序：",
+      badgeText: "番茄六大生長過程 🌱🍅",
+      svg: `<svg viewBox="0 0 200 100" class="scene-svg">
+        <text x="20" y="35" font-size="18">🌱</text>
+        <text x="20" y="55" font-size="9" font-weight="bold" fill="#388e3c">1.播種</text>
+        <text x="50" y="45" font-size="12" fill="#78909c">➔</text>
+        <text x="75" y="35" font-size="18">🌿</text>
+        <text x="75" y="55" font-size="9" font-weight="bold" fill="#388e3c">3.幼苗</text>
+        <text x="105" y="45" font-size="12" fill="#78909c">➔</text>
+        <text x="130" y="35" font-size="18">🌼</text>
+        <text x="130" y="55" font-size="9" font-weight="bold" fill="#f57f17">5.開花</text>
+        <text x="160" y="45" font-size="12" fill="#78909c">➔</text>
+        <text x="180" y="35" font-size="20">🍅</text>
+        <text x="180" y="55" font-size="9" font-weight="bold" fill="#d32f2f">6.結果</text>
+      </svg>`,
+      options: [
+        { letter: "A", text: "開花 ➔ 結果 ➔ 播種 ➔ 發芽 ➔ 幼苗 ➔ 長大", correct: false },
+        { letter: "B", text: "播種 ➔ 種子發芽 ➔ 長出幼苗 ➔ 逐漸長大 ➔ 開花 ➔ 結果", correct: true },
+        { letter: "C", text: "長出幼苗 ➔ 結果 ➔ 播種 ➔ 開花 ➔ 發芽", correct: false }
+      ],
+      keyPoint: "番茄生長六大階段順序為：<strong>播種</strong> ➔ <strong>種子發芽</strong> ➔ <strong>長出幼苗</strong> ➔ <strong>逐漸長大</strong> ➔ <strong>開花</strong> ➔ <strong>結出豐碩果實</strong>！"
+    },
+    {
+      id: 8,
+      topic: "飼養小狗的生活照顧需求",
+      subTag: "第 8 題・照顧小寵物",
+      question: "家裡如果飼養了小狗「飛飛」，負責任的小主人每天必須為小狗提供什麼基本照顧？",
+      badgeText: "居住・飲食・散步 🐶🥣",
+      svg: `<svg viewBox="0 0 200 100" class="scene-svg">
+        <path d="M20 75 L35 45 L50 75 Z" fill="#ffb74d" stroke="#f57c00" stroke-width="2"/>
+        <rect x="25" y="60" width="20" height="20" fill="#8d6e63"/>
+        <circle cx="105" cy="55" r="18" fill="#d7ccc8"/>
+        <ellipse cx="90" cy="50" rx="4" ry="10" fill="#8d6e63"/>
+        <ellipse cx="120" cy="50" rx="4" ry="10" fill="#8d6e63"/>
+        <circle cx="100" cy="52" r="2.5" fill="#212121"/>
+        <circle cx="110" cy="52" r="2.5" fill="#212121"/>
+        <ellipse cx="105" cy="58" rx="4" ry="3" fill="#212121"/>
+        <ellipse cx="165" cy="72" rx="16" ry="6" fill="#b0bec5"/>
+        <ellipse cx="165" cy="70" rx="14" ry="4" fill="#4fc3f7"/>
+        <text x="165" y="55" font-size="14">🦴</text>
+      </svg>`,
+      options: [
+        { letter: "A", text: "乾淨舒適的居住環境、清潔的水與食物，並每天帶牠散步運動", correct: true },
+        { letter: "B", text: "只要高興時摸一摸，整天忘記餵水也沒關係", correct: false },
+        { letter: "C", text: "把小狗整天關在狹小黑暗的陽台，不准牠活動", correct: false }
+      ],
+      keyPoint: "飼養寵物是一輩子的承諾！小狗需要：<strong>合適清潔的居住環境</strong>、<strong>定時清潔的飲食與飲水</strong>，以及每天<strong>散步運動</strong>與主人的用心陪伴！"
+    },
+    {
+      id: 9,
+      topic: "用心照顧與尊重生命",
+      subTag: "第 9 題・愛護與尊重",
+      question: "我們用心照料植物、細心照顧寵物小動物，在過程中最重要的收穫是學習到什麼？",
+      badgeText: "負責任與尊重生命 💖🌱",
+      svg: `<svg viewBox="0 0 200 100" class="scene-svg">
+        <path d="M100 20 C100 15, 90 8, 80 8 C68 8, 60 18, 60 30 C60 48, 100 70, 100 70 C100 70, 140 48, 140 30 C140 18, 132 8, 120 8 C110 8, 100 15, 100 20 Z" fill="#ff80ab"/>
+        <path d="M100 70 L100 45" stroke="#43a047" stroke-width="4" stroke-linecap="round"/>
+        <path d="M100 55 Q85 45 90 35 Q100 40 100 55 Z" fill="#81c784"/>
+        <path d="M100 50 Q115 40 110 30 Q100 35 100 50 Z" fill="#81c784"/>
+        <path d="M50 78 Q75 68 100 72 Q125 68 150 78" stroke="#ffb74d" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </svg>`,
+      options: [
+        { letter: "A", text: "覺得照顧很麻煩，可以隨便丟棄", correct: false },
+        { letter: "B", text: "學習到用心照顧、培養負責任的態度，並懂得尊重生命", correct: true },
+        { letter: "C", text: "只是為了跟同學炫耀自己有寵物", correct: false }
+      ],
+      keyPoint: "動植物都是珍貴的生命。在照料植物與小動物的過程中，我們能學會<strong>用心照顧</strong>、培養<strong>負責任</strong>的良好生活態度，並且懂得<strong>尊重生命</strong>！"
+    }
+  ];
+
+  let currentQuestionIndex = 0;
+  let userScore = 0;
+  let hasAnsweredCurrent = false;
+
+  async function loadSavedState() {
+    if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+      try {
+        const state = await window.notebookAppApi.getAppState();
+        if (state && typeof state.bestScore === 'number') {
+          bestScore = state.bestScore;
+          const bestEl = document.getElementById('best-score-num');
+          if (bestEl) bestEl.textContent = bestScore;
+        }
+      } catch (e) {
+        console.warn('Notebook API read failed', e);
+      }
+    }
+  }
+
+  async function saveScoreState(finalScore) {
+    if (finalScore > bestScore) {
+      bestScore = finalScore;
+    }
+    const bestEl = document.getElementById('best-score-num');
+    if (bestEl) bestEl.textContent = bestScore;
+
+    if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+      try {
+        await window.notebookAppApi.setAppState({
+          bestScore: bestScore,
+          lastPlayed: new Date().toISOString()
+        });
+      } catch (e) {
+        console.warn('Notebook API write failed', e);
+      }
+    }
+  }
+
+  function renderQuestion() {
+    hasAnsweredCurrent = false;
+    const q = quizData[currentQuestionIndex];
+
+    /* Update Top Bar Progress */
+    const progText = document.getElementById('progress-indicator');
+    if (progText) progText.textContent = `關卡進度：第 ${currentQuestionIndex + 1} / ${quizData.length} 題`;
+
+    const progBar = document.getElementById('progress-bar');
+    if (progBar) {
+      const percentage = Math.round(((currentQuestionIndex) / quizData.length) * 100);
+      progBar.style.width = `${Math.max(percentage, 10)}%`;
+    }
+
+    /* Update Scene Art & Badges */
+    const sceneArt = document.getElementById('scene-art');
+    if (sceneArt) sceneArt.innerHTML = q.svg;
+
+    const sceneBadge = document.getElementById('scene-topic-badge');
+    if (sceneBadge) sceneBadge.textContent = q.badgeText;
+
+    const subTag = document.getElementById('q-sub-tag');
+    if (subTag) subTag.textContent = q.subTag;
+
+    const qTitle = document.getElementById('q-title-text');
+    if (qTitle) qTitle.textContent = q.question;
+
+    /* Hide Knowledge Card */
+    const knowledgeCard = document.getElementById('knowledge-card');
+    if (knowledgeCard) knowledgeCard.style.display = 'none';
+
+    /* Render Options */
+    const container = document.getElementById('options-container');
+    if (container) {
+      container.innerHTML = '';
+      q.options.forEach((opt, idx) => {
+        const li = document.createElement('li');
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.setAttribute('type', 'button');
+        btn.setAttribute('aria-label', `選項 ${opt.letter}：${opt.text}`);
+        btn.onclick = function() {
+          handleSelectOption(idx);
+        };
+
+        btn.innerHTML = `
+          <span class="option-letter">${opt.letter}</span>
+          <span class="option-text">${opt.text}</span>
+        `;
+        li.appendChild(btn);
+        container.appendChild(li);
+      });
+    }
+  }
+
+  function handleSelectOption(selectedIndex) {
+    if (hasAnsweredCurrent) return;
+    hasAnsweredCurrent = true;
+
+    const q = quizData[currentQuestionIndex];
+    const selectedOption = q.options[selectedIndex];
+    const isCorrect = selectedOption.correct;
+
+    const optionButtons = document.querySelectorAll('.option-btn');
+    optionButtons.forEach((btn, idx) => {
+      btn.disabled = true;
+      if (q.options[idx].correct) {
+        btn.classList.add('state-correct');
+      } else if (idx === selectedIndex) {
+        btn.classList.add('state-wrong');
+      }
+    });
+
+    const knowledgeCard = document.getElementById('knowledge-card');
+    const feedbackResultText = document.getElementById('feedback-result-text');
+    const knowledgeContentText = document.getElementById('knowledge-content-text');
+
+    if (isCorrect) {
+      userScore++;
+      playSfx('correct');
+      const starsText = document.getElementById('stars-text');
+      if (starsText) starsText.textContent = `得分：${userScore}`;
+
+      if (feedbackResultText) {
+        feedbackResultText.textContent = '🎉 太棒了，答對了！';
+        feedbackResultText.style.color = 'var(--positive)';
+      }
+    } else {
+      playSfx('wrong');
+      if (feedbackResultText) {
+        feedbackResultText.textContent = '💡 差一點點！來看看課文重點：';
+        feedbackResultText.style.color = 'var(--warning)';
+      }
+    }
+
+    if (knowledgeContentText) {
+      knowledgeContentText.innerHTML = q.keyPoint;
+    }
+    if (knowledgeCard) {
+      knowledgeCard.style.display = 'block';
+      knowledgeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  function goToNextQuestion() {
+    playSfx('click');
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < quizData.length) {
+      renderQuestion();
+      const mainCard = document.getElementById('quiz-main-card');
+      if (mainCard) {
+        mainCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } else {
+      showFinalResult();
+    }
+  }
+
+  function showFinalResult() {
+    playSfx('victory');
+
+    const progBar = document.getElementById('progress-bar');
+    if (progBar) progBar.style.width = '100%';
+
+    const progText = document.getElementById('progress-indicator');
+    if (progText) progText.textContent = '挑戰完成！恭喜通關！';
+
+    const quizMain = document.getElementById('quiz-main-card');
+    if (quizMain) quizMain.style.display = 'none';
+
+    const resultCard = document.getElementById('final-result-card');
+    if (resultCard) resultCard.style.display = 'block';
+
+    const scoreNum = document.getElementById('final-score-num');
+    if (scoreNum) scoreNum.textContent = userScore;
+
+    const starsNum = document.getElementById('final-stars-num');
+    if (starsNum) {
+      if (userScore >= 9) {
+        starsNum.textContent = '⭐⭐⭐ 滿分達人';
+      } else if (userScore >= 7) {
+        starsNum.textContent = '⭐⭐ 優秀達人';
+      } else {
+        starsNum.textContent = '⭐ 努力小達人';
+      }
+    }
+
+    saveScoreState(userScore);
+    resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function restartQuiz() {
+    playSfx('click');
+    currentQuestionIndex = 0;
+    userScore = 0;
+    hasAnsweredCurrent = false;
+
+    const starsText = document.getElementById('stars-text');
+    if (starsText) starsText.textContent = '得分：0';
+
+    const resultCard = document.getElementById('final-result-card');
+    if (resultCard) resultCard.style.display = 'none';
+
+    const quizMain = document.getElementById('quiz-main-card');
+    if (quizMain) quizMain.style.display = 'flex';
+
+    renderQuestion();
+  }
+
+  /* Initialization */
+  document.addEventListener('DOMContentLoaded', async () => {
+    await loadSavedState();
+    renderQuestion();
+  });
+</script>
+</body>
+</html>
